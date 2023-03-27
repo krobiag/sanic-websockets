@@ -25,6 +25,26 @@
   font-size: 14px;
 }
 
+span.ping {
+  color: red
+}
+
+span.pong {
+  color: blue
+}
+
+.websocket-wrapper {
+  margin-bottom: 40px;
+}
+
+pre.code-format {
+  background-color: #7f8082;
+  padding: 20px;
+  border-radius: 10px;
+  max-height: 200px;
+  overflow: auto;
+}
+
 .App-link {
   color: #61dafb;
 }
