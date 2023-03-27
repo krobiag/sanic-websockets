@@ -46,3 +46,6 @@ test_station = {
 
 test_countries = ['South Africa', 'China', 'Syria', 'Tajikistan', 'Indonesia', 'Indonesia', 'Colombia', 'Argentina', 'United States', 'Paraguay', 'Brazil', 'Vietnam', 'Indonesia', 'Philippines', 'Japan', 'Tunisia', 'North Korea', 'Portugal', 'Yemen', 'Russia', 'Canada', 'United States', 'Kazakhstan', 'Japan', 'Sweden', 'Brazil', 'Philippines', 'Poland', 'Thailand', 'Greece', 'China', 'China', 'Mexico', 'Norway', 'Japan', 'Portugal', 'Dominican Republic', 'Philippines', 'Russia', 'Indonesia', 'Indonesia', 'Mexico', 'Ukraine', 'Colombia', 'China', 'Poland', 'Poland', 'Macedonia',
                   'Indonesia', 'Sweden', 'Libya', 'Mexico', 'Poland', 'Armenia', 'Peru', 'Yemen', 'Greece', 'Indonesia', 'Russia', 'Yemen', 'Luxembourg', 'Japan', 'Tajikistan', 'China', 'Philippines', 'Nigeria', 'Colombia', 'Pakistan', 'Peru', 'Ukraine', 'Canada', 'Indonesia', 'Indonesia', 'China', 'Greece', 'Poland', 'China', 'China', 'Belarus', 'Portugal', 'China', 'Brazil', 'Indonesia', 'China', 'Russia', 'Indonesia', 'China', 'Philippines', 'Indonesia', 'Argentina', 'China', 'Colombia', 'China', 'Thailand', 'Thailand', 'Cambodia', 'Indonesia', 'Philippines', 'Thailand', 'China']
+
+test_car_makes = ['Ford', 'Chevrolet', 'Dodge', 'Toyota',
+                  'Honda', 'BMW', 'Mercedes-Benz', 'Audi', 'Porsche', 'Tesla']

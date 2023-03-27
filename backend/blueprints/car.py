@@ -1,14 +1,13 @@
 from sanic.blueprints import Blueprint
-from sanic.response import json, html
+from sanic.response import json
 from sanic_ext import serializer
 from sanic_ext import openapi
-from sanic_ext.extensions.openapi.definitions import RequestBody, Response
-from sanic_ext.extensions.openapi.types import Schema
-from sanic import Sanic, Websocket, Request
+import random
 
-from backend.data import test_car, test_success
-from backend.models import Car, Status, ApiOkResponse, ApiResponse
+from backend.data import test_car, test_success, test_car_makes
+from backend.models import Car, Status, ApiOkResponse
 from backend.serializer import api_response_serializer
+from backend.socket import sio
 
 blueprint = Blueprint('Car', '/car')
 
@@ -20,23 +19,6 @@ blueprint = Blueprint('Car', '/car')
 @openapi.response(500, {"application/json": ApiOkResponse})
 @serializer(api_response_serializer)
 def car_list(request):
-    # """Fetches all cars
-
-    # Really gets the job done fetching these cars.
-
-    # openapi:
-    # ---
-    # responses:
-    #   '200':
-    #     description: Just some dots
-    #     content:
-    #         application/json:
-    #             schema:
-    #                 oneOf:
-    #                     - $ref: '#/components/schemas/Car'
-    #                     - $ref: '#/components/schemas/Dog'
-    #                     - $ref: '#/components/schemas/Hamster'
-    # """
     return [test_car]
 
 
@@ -68,37 +50,8 @@ def car_put(request, car_id):
 def car_delete(request, car_id):
     return json(test_success)
 
-# @blueprint.get('/html2', strict_slashes=False)
-# @openapi.no_autodoc
-# async def handle_request(request):
-#   return html("""
-#     <html>
-#         <head>
-#             <script>
-#                 var ws = new WebSocket("ws://" + location.host + '/car/feed');
-#                 ws.onmessage = function (event) {
-#                     console.log(event.data); document.body.innerHTML += "<div>" + event.data + "</div>";
-#                 };
-#                 ws.onclose = function (event) {
-#                     document.body.innerHTML += "<div>closed</div>";
-#                 };
-#                 ws.onerror = function(err) {
-#                     console.error(">>>err", err)
-#                 };
 
-#                 ws.onopen = function(err) {
-#                     console.log(">>>open", ws)
-#                     document.body.innerHTML += "<div>Connection open</div>";
-#                 };
-
-#                 var test = () => {
-#                     ws.send("Howdy!!")
-#                 };
-#             </script>
-#         </head>
-#         <body>
-#             <h1>Hello socket!</h1>
-#             <p>hello</p>
-#             <p><button onclick="test()">Send</button></p>
-#         </body>
-#     </html>""")
+@blueprint.get("/get_random_car", strict_slashes=False)
+async def visit_random_country_generator(request):
+    await sio.emit('visit_random_country_generator', {'message': 'visit_random_country_generator', "data": random.choice(test_car_makes)})
+    return json({"message": "go to http://localhost:3000 and keep refreshing this page"})

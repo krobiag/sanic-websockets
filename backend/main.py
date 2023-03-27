@@ -1,29 +1,20 @@
 from textwrap import dedent
 from sanic import Sanic
-from sanic.response import json, html
 from sanic_ext import Extend
-import socketio
-import random
 
 from backend.blueprints.car import blueprint as car_blueprint
 from backend.blueprints.driver import blueprint as driver_blueprint
 from backend.blueprints.garage import blueprint as garage_blueprint
 from backend.blueprints.manufacturer import blueprint as manufacturer_blueprint
 from backend.blueprints.repair import blueprint as repair_blueprint
-from backend.data import test_countries
+from backend.socket import sio
 
 
 def create_app(app_name: str) -> Sanic:
-    sio = socketio.AsyncServer(async_mode='sanic', cors_allowed_origins="*")
+    # sio = socketio.AsyncServer(async_mode='sanic', cors_allowed_origins="*")
     app = Sanic(app_name)
 
     sio.attach(app)
-    app.config.CORS_ORIGINS = "http://localhost:3000"
-
-    @app.get("/test", strict_slashes=False)
-    async def visit_random_country_generator(request):
-        await sio.emit('visit_random_country_generator', {'message': 'visit_random_country_generator', "data": random.choice(test_countries)})
-        return json({"message": "go to http://localhost:3000 and keep refreshing this page"})
 
     Extend(app)
     app.ext.openapi.describe(
@@ -68,20 +59,18 @@ def create_app(app_name: str) -> Sanic:
     app.blueprint(manufacturer_blueprint)
     app.blueprint(repair_blueprint)
 
-    app.config.WEBSOCKET_MAX_SIZE = 2 ** 20
-    app.config.WEBSOCKET_PING_INTERVAL = 20
-    app.config.WEBSOCKET_PING_TIMEOUT = 20
+    app.config.CORS_ORIGINS = "http://localhost:3000"
 
-    @sio.event
-    def connect(sid, environ, auth):
-        print('connect ', sid)
+    # @sio.event
+    # def connect(sid, environ, auth):
+    #     print('connect ', sid)
 
-    @sio.event
-    def disconnect(sid):
-        print('disconnect ', sid)
+    # @sio.event
+    # def disconnect(sid):
+    #     print('disconnect ', sid)
 
-    @sio.event
-    async def received_random_country(sid, data):
-        print('message from received_random_country', sid, data)
+    # @sio.event
+    # async def received_random_country(sid, data):
+    #     print('message from received_random_country', sid, data)
 
     return app
