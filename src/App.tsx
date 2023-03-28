@@ -9,14 +9,14 @@ interface IPingPongMessage {
 }
 
 function App() {
-  const [countries, setCountries] = useState<string[]>([]);
+  const [cars, setCars] = useState<string[]>([]);
   const [pingPongSever, setPingPongServer] = useState<IPingPongMessage[]>([]);
   const { socket, connected, disconnected, connecting } = useSocket();
 
   // Listen for the visit_random_country_generator message to emit from the server
   socket?.on("visit_random_country_generator", (res) => {
     const { data } = res;
-    setCountries([...countries, data]);
+    setCars([...cars, data]);
     socket.emit("received_random_country", data);
   });
 
@@ -78,6 +78,11 @@ function App() {
             </pre>
             <button onClick={pingServer}>Ping Server</button>
           </div>
+        </div>
+        <div>
+          {cars.map((car, carIndex) => (
+            <div key={`car-${carIndex}`}>{car}</div>
+          ))}
         </div>
       </header>
     </div>
